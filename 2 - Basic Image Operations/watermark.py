@@ -38,7 +38,8 @@ btr_y = int(cy + mark_h / 2)
 # ROI from original image
 roi = img[tpl_y:btr_y, tpl_x:btr_x]
 
-# Need a 3-channel mask of just the alpha values of the watermark png
+# Need a 3-channel mask of the alpha values of the watermark png
+# 4-channel png needs to match 3-channel jpg
 mark_alpha = mark[:,:, 3]
 mark_mask = cv2.merge([mark_alpha, mark_alpha, mark_alpha])
 
@@ -60,7 +61,13 @@ img[tpl_y:btr_y, tpl_x:btr_x] = final_roi
 orange_marked = img.copy()
 cv2.imwrite('orange_watermarked.jpg', orange_marked)
 
-plt.figure(figsize=(15,10))
-plt.subplot(121); plt.imshow(orange_original[:, :, ::-1]); plt.title('Original')
-plt.subplot(122); plt.imshow(orange_marked[:, :, ::-1]);       plt.title('Watermarked')
+# Plotting to show process
+fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4)
+fig.suptitle("Watermarking Image")
+fig.tight_layout()
+ax1.imshow(orange_original[:, :, ::-1]); plt.title('Original')
+ax2.imshow(masked_roi[:, :, ::-1]); plt.title('ROI mask')
+ax3.imshow(masked_mark); plt.title('Watermark mask')
+ax4.imshow(orange_marked[:, :, ::-1]); plt.title('Watermarked')
+
 plt.show()
