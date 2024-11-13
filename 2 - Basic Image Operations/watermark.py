@@ -7,6 +7,8 @@ plt.rcParams['figure.figsize'] = (15, 15)
 img = cv2.imread('./orange.jpg', cv2.IMREAD_UNCHANGED)
 mark = cv2.imread('./img.png', cv2.IMREAD_UNCHANGED)
 
+orange_original = img.copy()
+
 print(img.shape)
 print(mark.shape)
 
@@ -55,9 +57,10 @@ final_roi = cv2.bitwise_or(masked_roi, masked_mark)
 # We can replace the region of the original image with it
 img[tpl_y:btr_y, tpl_x:btr_x] = final_roi
 
-plt.imshow(img[:,:,::-1])
-plt.show()
-
 orange_marked = img.copy()
 cv2.imwrite('orange_watermarked.jpg', orange_marked)
 
+plt.figure(figsize=(15,10))
+plt.subplot(121); plt.imshow(orange_original[:, :, ::-1]); plt.title('Original')
+plt.subplot(122); plt.imshow(orange_marked[:, :, ::-1]);       plt.title('Watermarked')
+plt.show()
