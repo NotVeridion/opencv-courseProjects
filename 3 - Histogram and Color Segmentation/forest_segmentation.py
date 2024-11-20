@@ -33,8 +33,6 @@ BGR_ub = np.array([255, 70, 255], np.uint8)
 
 mask_BGR = cv2.inRange(img, BGR_lb, BGR_ub)
 
-plt.imshow(mask_BGR)
-
 # Calculating percentage of forest using mask
 
 c = cv2.countNonZero(mask_BGR)
